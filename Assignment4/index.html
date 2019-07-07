@@ -1,0 +1,45 @@
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> HW4 </title>
+    <script type="text/Javascript" src="hw4functions.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+    <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
+</head>
+<body>
+    <div data-role="panel" id="myPanel" data-position="left" data-display="push">
+        <button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-home" onclick="loadHome()"> Home </button>
+        <button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-star" onclick="requestComputer()"> Computer </button>
+        <button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-cloud" onclick="requestWeather()"> Weather </button>
+    </div>
+
+    <div data-role="header" data-position="fixed">
+        <a href="#myPanel">Menu</a>
+        <h1> HW4 </h1>
+    </div>
+
+    <div id="content" data-role="content">
+        <div>
+            <h2> CS 275 HW #4 </h2>
+            <p> This website contains a calculator and weather forecaster!</p>
+            <p> The calculator can compute the n-th Factorial and the Summation Series (from 1 to n)</p>
+            <p> The weather forecaster will provide a 7-day forecast for any zip code</p>
+            <p> To utilize these tools, click on the menu in the upper left corner </p>
+        </div>
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+        <h2> Chris Kasper </h2>
+    </div>
+</body>
+</html>

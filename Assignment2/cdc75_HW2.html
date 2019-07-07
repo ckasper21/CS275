@@ -1,0 +1,117 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Weather Forecast </title>
+    <body style="background-color:#87CEFA;">
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+        }
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+    <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
+
+    <script type="text/javascript">
+        function Forecast() {
+            clientID = document.getElementById("clientID").value;
+            secretKey = document.getElementById("secretKey").value;
+
+            if (clientID == "" || secretKey == ""){
+                document.getElementById('forecastOutput').innerHTML = "Please enter a client ID and secret key";
+                return;
+            }
+
+            URL = "https://api.aerisapi.com/forecasts/";
+            URL2 = "&client_id=" + clientID;
+            URL3 = "&client_secret=" + secretKey;
+
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+
+                    URL = URL+lat+','+lon+"?&format=json"+URL2+URL3;
+                    $(document).ready(request(URL));
+                });
+            }
+
+        };
+
+        <!-- Function to display 7 day forecast from JSON object -->
+        function displayForecast(json){
+            var table = '<table>';
+            <!-- For JQuery mobile -->
+            table += '<table data-role="table" class="ui-responsive">'
+            <!-- Header for table -->
+            table += '<thead> <tr> <th> Day </th> <th> Max Temp (F) </th> <th> Min Temp (F) </th> <th>Average Feels Like (F)</th> <th> Weather </th> </tr> </thead> <tbody>'
+            for (var i = 0; i < 7; i++) {
+                <!-- Body for table -->
+                table += '<tr>';
+                table += '<td>';
+                table += json.response[0].periods[i].validTime.split("T")[0];
+                table += '</td>';
+                table += '<td>';
+                table += json.response[0].periods[i].maxTempF;
+                table += '</td>';
+                table += '<td>';
+                table += json.response[0].periods[i].minTempF;
+                table += '</td>';
+                table += '<td>';
+                table += json.response[0].periods[i].avgFeelslikeF;
+                table += '</td>';
+                table += '<td>';
+                table += json.response[0].periods[i].weather;
+                table += '</td>';
+                table += '</tr>';
+            }
+            table += '</tbody></table>';
+            document.getElementById('forecastOutput').innerHTML = table;
+        }
+
+    </script>
+
+    <script>
+    <!-- Jquery functions will go here -->
+    <!-- request 7 day forecast JSON from Aeris Weather -->
+    function request(URL){
+        $.ajax({
+            type: "GET",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            data: "{}",
+            dataType: "json",
+            success: function(msg) {
+                var json = msg;
+                displayForecast(json);
+            },
+            error: function(xhr,ajaxOptions,thrownError){
+                $("#forecastOutput").html("Error fetching " + URL);
+            }
+        });
+    }
+    </script>
+</head>
+<body>
+    <div data-role="header", data-position="fixed">
+        <h1> 7 Day Forecast </h1>
+    </div>
+    <div data-role="controlgroup" data-type="horizontal">
+        <h3> Using Aeris Weather credentials </h3>
+        <input type="text" id="clientID" placeholder="Enter Client ID here">
+        <input type="text" id="secretKey" placeholder="Enter Secret Key here">
+        <input type="button" name="forecast" value="Forecast!" onclick="Forecast()">
+        <br> <br> <br>
+        <div id="forecastOutput" name="forecastOutput">
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <h2> CS 265 </h2>
+        </div>
+    </div>
+</body>
+</html>

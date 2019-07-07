@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title> Fibonacci Sequence </title>
+    <body style="background-color:#85F192;">
+    <style>
+        .my_text
+        {
+            font-family:    verdana;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width:50%;
+
+        }
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        <!-- Function to compute the Fibonacci Sequence to the nth term -->
+        function Fib(){
+            fib_array = [0,1];
+            var output;
+            num = parseInt(document.getElementById('textbox1').value);
+            <!-- Checking for valid input first -->
+            if (isNaN(num)){
+                document.getElementById('fibOutput').innerHTML = "Invalid Input";
+            }
+            else if (num < 1) {
+                document.getElementById('fibOutput').innerHTML = "Cannot compute Fib of a negative integers";
+            }
+            else {
+                count = 1;
+                while (count != num){
+                    count++;
+                    fib_array[count] = fib_array[count-1] + fib_array[count-2];
+                }
+                createFibTable(fib_array)
+            }
+
+        }
+        <!-- Generate table for Fib() output-->
+        function createFibTable(fib_nums) {
+            var table = '<table>';
+            <!-- Header for table -->
+            table += '<thead> <tr> <th> n </th> <th> Fib(n) </th> </tr> </thead>'
+            count = 1;
+            for (var i = 0; i < fib_nums.length-1; i++) {
+                <!-- Body for table -->
+                table += '<tr>';
+                table += '<td>';
+                table += count;
+                table += '</td>';
+                table += '<td>';
+                table += fib_nums[i];
+                table += '</td>';
+                table += '</tr>';
+                count++;
+            }
+            table += '</table>';
+            document.getElementById('fibOutput').innerHTML = table;
+        }
+    </script>
+</head>
+<body>
+    <div class="my_text">
+        <h1> <center>The Fibonacci Sequence!</center> </h1>
+        <p>The Fibonacci sequence is a series of numbers where a number is found by
+            adding up the two numbers before it. Starting with 0 and 1, the sequence
+            goes 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, and so forth.</p>
+        <p> Written as a rule, the expression is x<sub>n</sub> = x<sub>n-1</sub>
+            + x<sub>n-2</sub>. </p>
+        <p> Named after Fibonacci,also known as Leonardo of Pisa or Leonardo
+            Pisano, Fibonacci numbers were first introduced in his <i>Liber abaci</i> in
+            1202. The son of a Pisan merchant, Fibonacci traveled widely and
+            traded extensively. Math was incredibly important to those in the
+            trading industry, and his passion for numbers was cultivated in his
+            youth.</p>
+        <center> <img src="https://qph.fs.quoracdn.net/main-qimg-a5cfa3821ffcae67b58c31c267196d0f-c"> </center>
+        <h2> <center>Fibonacci Calculator</center> </h2>
+        <p> To compute the nth-term of the Fibonacci Sequence, enter a number and hit Calculate! </p>
+        <center> <p style="font-size:10pt;"> (Note: Floats will be rounded down) </p>
+        <input type="text" name="textbox1" id="textbox1" style="height:20px; font-size:12pt;">
+        <input id="FibCalc" type="button" value="Calculate!" onclick="Fib()">
+        <div class="my_text" id="fibOutput" name="fibOutput2" title="Fibonacci Calculator Output">
+        </div>
+        </center>
+    </div>
+</body>
+</html>

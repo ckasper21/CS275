@@ -1,0 +1,80 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Calculator </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+    <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
+
+    <script type="text/javascript">
+        function Calculate() {
+            <!-- Get user calculation selection -->
+            var sel = $("#sel").val();
+            var val = $("#seed").val();
+
+            <!-- Check for input -->
+            if (val == "" || isNaN(parseInt(val))){
+                document.getElementById('calcOutput').innerHTML = "Please enter a numeric value for n";
+                return;
+            }
+
+            URL = "http://localhost:8080";
+
+            if (sel == 'fact') {
+                URL += '/fact';
+            } else {
+                URL += '/sum';
+            }
+
+            $(document).ready(request(URL));
+
+        };
+
+    </script>
+
+    <script>
+    <!-- Jquery functions will go here -->
+    <!-- Calculate from Node.js server-->
+    function request(URL){
+        var val = $("#seed").val();
+        params = {
+            "seed": val
+        };
+        $.ajax({
+            type: "GET",
+            url: URL,
+            data: params,
+            dataType: "html",
+            success: function(msg) {
+                document.getElementById('calcOutput').innerHTML = msg;
+            },
+            error: function(xhr,ajaxOptions,thrownError){
+                $("#calcOutput").html("Error fetching " + URL);
+            }
+        });
+    }
+    </script>
+</head>
+<body>
+    <div data-role="header">
+        <h1> Factorial and Summation Series </h1>
+    </div>
+    <div>
+        <input type="text" id="seed" placeholder="Enter value for n here">
+        <div>
+            <select id="sel">
+                <option value="fact">Factorial</option>
+                <option value="sum">Summation Series (1 to n)</option>
+            </select>
+        </div>
+        <input type="button" name="calc" value="Calculate" onclick="Calculate()">
+        <br>
+        <div id="calcOutput" name="calcOutput">
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <h2> CS 275 </h2>
+        </div>
+    </div>
+</body>
+</html>
